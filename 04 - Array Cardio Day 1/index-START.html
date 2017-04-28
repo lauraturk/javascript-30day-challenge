@@ -79,9 +79,9 @@
     // Sort the people alphabetically by last name
 
     const alphabeticallySorted = people.sort ( (a, b) => {
-      const firstName = a.charAt(0);
-      const nextName = b.charAt(0);
-      console.log(firstName, nextName)
+      const firstName = a.split(', ');
+      const nextName = b.split(', ');
+      
 
 return firstName > nextName ? 1 : -1;
     })
