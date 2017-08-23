@@ -58,7 +58,65 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+// initial solution:
+// document.addEventListener('keydown', function(e) {
+//   const allKeys = document.getElementsByClassName('key')
+//
+//   for(let i = 0; i < allKeys.length; i++) {
+//     if(parseInt(allKeys[i].dataset.key) === e.keyCode) {
+//       allKeys[i].classList.add('playing')
+//       play(e.keyCode)
+//     }
+//   }
+// })
+//
+// document.addEventListener('keyup', function(e) {
+//   var allKeys = document.getElementsByClassName('key')
+//
+//   for(let i = 0; i < allKeys.length; i++) {
+//     if(parseInt(allKeys[i].dataset.key) === e.keyCode) {
+//       allKeys[i].classList.remove('playing')
+//     }
+//   }
+// })
+//
+// function play(key) {
+//   var allAudio = document.querySelectorAll('audio')
+//
+//   for(let i = 0; i < allAudio.length; i++) {
+//     if(parseInt(allAudio[i].dataset.key) === key) {
+//       allAudio[i].play()
+//     }
+//   }
+// }
 
+// refactored solution:
+
+  const allKeys = document.getElementsByClassName('key')
+
+  function playSound(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+
+    if(!audio) return ;
+
+    audio.currentTime = 0;
+    audio.play()
+
+    key.classList.add('playing')
+  }
+
+  function removeTransition(event){
+    if(event.propertyName !== 'transform') return;
+
+    this.classList.remove('playing')
+  }
+
+  for(let i = 0; i < allKeys.length; i++) {
+    allKeys[i].addEventListener('transitionend', removeTransition)
+  }
+  
+  document.addEventListener('keydown', playSound)
 </script>
 
 
